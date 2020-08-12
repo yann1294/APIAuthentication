@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost/APIAuthentication");
+mongoose.connect("mongodb://localhost/APIDevelopAuthentication");
 
 const app = express();
 
