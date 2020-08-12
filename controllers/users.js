@@ -1,4 +1,18 @@
+const JWT = require("jsonwebtoken");
 const User = require("../models/user");
+const { JWT_SECRET } = require("../configuration");
+
+signToken = (user) => {
+  return JWT.sign(
+    {
+      iss: "ADG",
+      sub: user.id,
+      iat: new Date().getTime(), // current time
+      exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day delay
+    },
+    JWT_SECRET
+  );
+};
 
 module.exports = {
   signUp: async (req, res, next) => {
@@ -12,7 +26,7 @@ module.exports = {
 
     const foundUser = await User.findOne({ email });
     if (foundUser) {
-      return res.status(403).send({ error: "Email is already in use" });
+      return res.status(403).json({ error: "Email is already in use" });
     }
 
     // Create a new user
@@ -22,8 +36,11 @@ module.exports = {
     });
     await newUser.save();
 
+    // Generate token
+    const token = signToken(newUser);
+
     // Respond with token
-    res.json({ user: "created" });
+    res.status(200).json({ token });
 
     //  const email = req.value.body.email;
     //  const Password = req.value.body.password;
