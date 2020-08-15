@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost/APIDevelopAuthentication");
+mongoose.connect("mongodb://localhost/APIAuthentication");
 
 const app = express();
 
@@ -18,4 +18,4 @@ app.use("/users", require("./routes/users"));
 // Start the server
 const port = process.env.PORT || 3000;
 app.listen(port);
-console.log("Server listening at " + port);
+console.log(`Server listening at ${port}`);
